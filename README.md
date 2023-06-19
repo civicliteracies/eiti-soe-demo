@@ -1,2 +1,3 @@
 # eiti-ose-demo
-demonstration of the workflow to create a new companies database and API for EITI
+
+Demonstration in a Jupyer notebook of the workflow to create a new companies database and API for EITI
