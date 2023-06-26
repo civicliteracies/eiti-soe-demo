@@ -1,0 +1,139 @@
+{% import "_crumbs.html" as crumbs with context %}<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ metadata.title or "Datasette" }}: {% for database in databases %}{{ database.name }}{% if not loop.last %}, {% endif %}{% endfor %}</title>
+    <link rel="stylesheet" href="{{ urls.static('app.css') }}?{{ app_css_hash }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% for url in extra_css_urls %}
+    <link rel="stylesheet" href="{{ url.url }}"{% if url.get("sri") %} integrity="{{ url.sri }}" crossorigin="anonymous"{% endif %}>
+{% endfor %}
+{% for url in extra_js_urls %}
+    <script {% if url.module %}type="module" {% endif %}src="{{ url.url }}"{% if url.get("sri") %} integrity="{{ url.sri }}" crossorigin="anonymous"{% endif %}></script>
+{% endfor %}
+{%- if alternate_url_json -%}
+    <link rel="alternate" type="application/json+datasette" href="{{ alternate_url_json }}">
+{%- endif -%}
+{%- block extra_head %}{% endblock -%}
+</head>
+<body class="index">
+<div class="not-footer">
+  <header>
+    <nav>
+        <div class="logo">
+            <a href="https://eiti.org">
+                <img src="https://totalenergies.com/sites/g/files/nytnzq121/files/styles/w_1110/public/images/2022-04/Logo_EITI.png?itok=ZtERfO-0" alt="EITI Logo">
+            </a>
+        </div>
+        <div class="links">
+            <a href="https://eiti.org/open-data">EITI Open Data</a>
+            <a class="crumbs" href="#">{{ crumbs.nav(request=request).replace('home', 'SOE Database') }}</a>
+            <a href="#">Using the API</a>
+        </div>
+        
+        {% set links = menu_links() %}
+        {% if links or show_logout %}
+        <details class="nav-menu details-menu">
+            <summary>
+                <svg aria-labelledby="nav-menu-svg-title" role="img" fill="currentColor" stroke="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                    <title id="nav-menu-svg-title">Menu</title>
+                    <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z"></path>
+                </svg>
+            </summary>
+            <div class="nav-menu-inner">
+                {% if links %}
+                <ul>
+                    {% for link in links %}
+                    <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if show_logout %}
+                <form action="{{ urls.logout() }}" method="post">
+                    <input type="hidden" name="csrftoken" value="{{ csrftoken() }}">
+                    <button class="button-as-link">Log out</button>
+                </form>
+                {% endif %}
+            </div>
+        </details>
+        {% endif %}
+        
+        {% if actor %}
+        <div class="actor">
+            <strong>Authenticated as:</strong>
+            {{ actor.display_name }}
+        </div>
+        {% endif %}
+    </nav>
+</header>
+
+
+{% block content %}
+<h1 class="text-center mt-5">
+  {{ metadata.title or "Datasette" }}
+  {% if private %}
+    <span class="text-muted">🔒</span>
+  {% endif %}
+</h1>
+
+{% block description_source_license %}{% include "_description_source_license.html" %}{% endblock %}
+
+<div class="row">
+  {% for database in databases %}
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title" style="color: #{{ database.color }}">
+            <a href="{{ urls.database(database.name) }}">{{ database.name }}</a>
+            {% if database.private %}
+              <span class="text-muted">🔒</span>
+            {% endif %}
+          </h2>
+          <p class="card-text">
+            {% if database.show_table_row_counts %}
+              {{ "{:,}".format(database.table_rows_sum) }} rows in
+            {% endif %}
+            {{ database.tables_count }} table{% if database.tables_count != 1 %}s{% endif %}
+          </p>
+          <p class="card-text">
+            {% for table in database.tables_and_views_truncated %}
+              <a href="{{ urls.table(database.name, table.name) }}"{% if table.count %} title="{{ table.count }} rows"{% endif %}>{{ table.name }}</a>
+              {% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
+</div>
+
+<footer class="ft">Powered by <a href="https://datasette.io/" title="{{ metadata.datasette_version or "Datasette" }}">Datasette</a>
+    &middot; Data license:
+        {% if metadata.license %}
+            <a href="{{ metadata.license_url }}">{{ metadata.license }}</a>
+        {% else %}
+            Unspecified
+        {% endif %}
+    &middot;
+        Data source: {{ metadata.source or "Unknown" }}
+</footer>
+
+<script>
+document.body.addEventListener('click', (ev) => {
+    /* Close any open details elements that this click is outside of */
+    var target = ev.target;
+    var detailsClickedWithin = null;
+    while (target && target.tagName != 'DETAILS') {
+        target = target.parentNode;
+    }
+    if (target && target.tagName == 'DETAILS') {
+        detailsClickedWithin = target;
+    }
+    Array.from(document.getElementsByTagName('details')).filter(
+        (details) => details.open && details != detailsClickedWithin
+    ).forEach(details => details.open = false);
+});
+</script>
+</body>
+</html>
