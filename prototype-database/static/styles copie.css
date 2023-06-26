@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.index {
+  background-color: #ffffff;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  margin: 0;
+}
+
+.database {
+  font-size: 18px;
+  color: #333333;
+  border-left: 10px solid #ccc;
+  padding: 10px;
+}
+
+.table {
+  font-size: 16px;
+  color: #000000;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+}
+
+.private {
+  color: #ff0000;
+}
+
+.index .database:hover {
+  background-color: #f5f5f5;
+}
+
+.index .table:hover {
+  background-color: #f5f5f5;
+}
+
+.index a {
+  text-decoration: none;
+}
+
+.index a:hover {
+  color: #000000;
+}
+
+.index .title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.index .description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.index .source-license {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+/* General styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+    background-color: #ffffff;
+}
+
+/* Header */
+.header-section {
+    background-color: #132856;
+    padding: 24px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+
+
+.table-info {
+    margin: 0;
+}
+
+.tables-list {
+    /* Display the list horizontally */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 0;
+}
+
+.table-link,
+.more-link {
+    /* Align the links horizontally */
+    margin-right: 0;
+}
+
+/* Table styles */
+.table-wrapper {
+    margin: 20px;
+    overflow-x: auto;
+}
+
+.rows-and-columns {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rows-and-columns thead {
+    background-color: #ffffff;
+}
+
+.rows-and-columns th {
+    padding: 16px 24px;
+    color: #132856;
+    text-align: left;
+    font-weight: 700;
+}
+
+.rows-and-columns th a {
+    color: #132856;
+    text-decoration: none;
+}
+
+.rows-and-columns th a:hover {
+    text-decoration: underline;
+}
+
+.rows-and-columns td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #eee;
+}
+
+.rows-and-columns tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.rows-and-columns tbody tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.rows-and-columns tbody tr:hover {
+    background-color: #e8f3fc;
+}
+
+.zero-results {
+    text-align: center;
+    margin: 20px;
+    font-size: 16px;
+}
+
+a:visited {
+    color: #000;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #132856;
+}
+
+/* Footer */
+footer {
+    background-color: #132856;
+    color: #fff;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.2), 0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Colors */
+
+/* Primary color */
+@primary-color: #132856;
+
+/* Secondary color */
+@secondary-color: #000;
+
+/* Fonts */
+
+/* Body font */
+@body-font: 'Roboto', sans-serif;
+
+/* Heading font */
+@heading-font: 'Roboto', sans-serif;
+
+/* Responsive styles */
+
+@media (max-width: 768px) {
+    .database-entry {
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .database-entry {
+        margin-bottom: 8px;
+    }
+}
+
+/* Icons */
+
+/* Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css');
+
+/* Custom icons */
+.icon-database {
+    font-family: 'Material Icons';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    text-transform: none;
+    display: inline-block;
+    vertical-align: middle;
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tables */
+
+.db-table {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+
+    /* Add a card-like design */
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+
+.db-table h3 {
+    font-size: 1.2rem;
+    margin-top: 0;
+}
+
+.db-table p {
+    margin-top: 0.5rem;
+}
+
+.db-table em {
+    font-size: 0.8rem;
+}
+
+.db-table:hover {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 5px 0 rgba(0, 0, 0, 0.22), 0 1px 10px 0 rgba(0, 0, 0, 0.16);
+}
+
+@media (min-width: 768px) {
+    .db-table {
+        width: 40%;
+    }
+}
+
+@media (min-width: 992px) {
+    .db-table {
+        width: 33.33%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .db-table {
+        width: 25%;
+    }
+}

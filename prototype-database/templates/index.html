@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}{{ metadata.title or "Datasette" }}: {% for database in databases %}{{ database.name }}{% if not loop.last %}, {% endif %}{% endfor %}{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+{% endblock %}
+
+{% block body_class %}index{% endblock %}
+
+{% block nav %}
+<nav style="display: flex; justify-content: space-between;">
+    <!-- Custom content: Add a logo to the left side of the navigation bar -->
+    <a href="https://eiti.org" class="logo">
+        <img src="https://totalenergies.com/sites/g/files/nytnzq121/files/styles/w_1110/public/images/2022-04/Logo_EITI.png?itok=ZtERfO-0" alt="Logo" height="30">
+    </a>
+
+    <!-- Custom content: Add an About link -->
+    <div class="nav-links-container"> 
+      <a class="crumbs"  href="#">{{ crumbs.nav(request=request).replace('home', 'SOE Database') }}</a>
+      <a href="#" >EITI open data</a>
+      <a href="#" >About</a>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ metadata.title or "Datasette" }}{% if private %} 🔒{% endif %}</h1>
+
+    {% block description_source_license %}{% include "_description_source_license.html" %}{% endblock %}
+
+    <div class="database-cards">
+        {% for database in databases %}
+            <div class="database-card">
+                <h2 class="database-title">
+                  <a href="{{ urls.database(database.name) }}">{{ database.name | replace("-", " ") | replace("_", " ") }}</a>{% if database.private %} 🔒{% endif %}                </h2>
+                <p class="database-info">
+                    {% if database.show_table_row_counts %}{{ "{:,}".format(database.table_rows_sum) }} rows in {% endif %}
+                    {{ database.tables_count }} table{% if database.tables_count != 1 %}s{% endif %}
+                    {% if database.tables_count and database.hidden_tables_count %}, {% endif %}
+                    {% if database.hidden_tables_count %}
+                        {% if database.show_table_row_counts %}{{ "{:,}".format(database.hidden_table_rows_sum) }} rows in {% endif %}
+                        {{ database.hidden_tables_count }} hidden table{% if database.hidden_tables_count != 1 %}s{% endif %}
+                    {% endif %}
+                    {% if database.views_count %}
+                        {% if database.tables_count or database.hidden_tables_count %}, {% endif %}
+                        {{ "{:,}".format(database.views_count) }} view{% if database.views_count != 1 %}s{% endif %}
+                    {% endif %}
+                </p>
+                <div class="database-tables">
+                    {% for table in database.tables_and_views_truncated %}
+                        <a href="{{ urls.table(database.name, table.name) }}" {% if table.count %} title="{{ table.count }} rows"{% endif %}>{{ table.name }}</a>
+                        {% if table.private %} 🔒{% endif %}
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                    {% if database.tables_and_views_more %}, <a href="{{ urls.database(database.name) }}">...</a>{% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
