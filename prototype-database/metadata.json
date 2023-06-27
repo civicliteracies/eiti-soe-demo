@@ -1,0 +1,38 @@
+{
+    "title": "Test database and API deployment for EITI data",
+    "description": "A test interface using fake data to prototype the deployment of a company database based on EITI data",
+    "license": "ODbL",
+    "license_url": "https://opendatacommons.org/licenses/odbl/",
+    "source": "Synthetic Data Source",
+    "source_url": "",
+    "extra_css_urls": [
+        "/assets/styles.css",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+        "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap",
+        "https://fonts.googleapis.com/icon?family=Material+Icons"
+    ],
+    "databases": {
+        "EITI_Database": {
+            "queries": {
+                "companies_with_projects": {
+                    "sql": "SELECT companies.label AS company, json_group_array(projects.label) AS projects FROM companies JOIN project_companies ON companies.id = project_companies.company_id JOIN projects ON projects.id = project_companies.project_id GROUP BY companies.label",
+                    "title": "List of Companies with Associated Projects",
+                    "description": "This query retrieves the list of companies and the projects they are associated with in a structured JSON format.",
+                    "hide_sql": true
+                },
+                "projects_with_companies": {
+                    "sql": "SELECT projects.label AS project, json_group_array(companies.label) AS companies FROM projects JOIN project_companies ON projects.id = project_companies.project_id JOIN companies ON companies.id = project_companies.company_id GROUP BY projects.label",
+                    "title": "List of Projects with Associated Companies",
+                    "description": "This query retrieves the list of projects and the companies they are associated with in a structured JSON format.",
+                    "hide_sql": true
+                }
+            },
+            "tables": {
+                "project_companies": {
+                    "hidden": true
+                }
+                
+            }
+        }
+    }
+}
