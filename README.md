@@ -5,7 +5,7 @@ Demonstration in a Jupyer notebook of the workflow to create a new companies dat
 
 ## How do I use it
 
-The prototype datasette is in the prototype-database folder. Cclone the repo then launch datasette using 
+The prototype datasette is in the prototype-database folder. Clone the repo then launch datasette using 
 
 ```shell
 datasette EITI_Database.db -m metadata.json --template-dir=templates/ --static assets:static/
